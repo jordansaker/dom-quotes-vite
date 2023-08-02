@@ -11,6 +11,8 @@ import DashboardHome from './components/dashboard/DashboardHome'
 import EditContent from './components/dashboard/EditContent'
 import NotificationCreated from './components/dashboard/NotificationCreated'
 import EditQuote from './components/dashboard/EditQuote'
+import APIInfo from './components/APIInfo'
+import ShowQuote from './components/ShowQuote'
 
 const App = () => {
   const [quotesArray, setQuotesArray] = useState([])
@@ -38,7 +40,7 @@ const App = () => {
     <>
       <Nav />
       <Routes>
-        <Route path="/" element={<Home />}>
+        <Route path="/" element={<Home showQuote={<ShowQuote />} />}>
           <Route path="all/quotes" element={<AllQuotesDisplay />} />
         </Route>
         <Route path="/dashboard">
@@ -79,6 +81,7 @@ const App = () => {
         <Route path='edit/:id/' element={<Dashboard content={<EditQuote addQuote={addQuote} />} />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path='/api/docs/' element={<APIInfo />} />
       </Routes>
     </>
   )

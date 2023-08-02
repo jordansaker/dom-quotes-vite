@@ -14,7 +14,9 @@ const ShowQuote = () => {
   useEffect(() => {
     fetch('https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/')
         .then(response => response.json())
-        .then(data => setQuote(data))
+        .then(data => {
+          setQuote(data)
+        })
     }, [])
 
   return (

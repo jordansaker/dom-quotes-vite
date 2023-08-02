@@ -17,9 +17,12 @@ const AllQuotesDisplay = ({ quotesArray, setQuotesArray, handleEditClick }) => {
       {quotesArray.length > 0 ? (
         quotesArray.map((quote, index) => (
           <li value={quote.id} key={quote.id} onClick={handleEditClick}>
-            <p value={quote.id} >{index + 1}</p>
-            <p value={quote.id} >{quote.quote}</p>
-            <p value={quote.id} >{quote["movie_title"]}</p>
+            <span className='fa fa-trash-alt'></span>
+            <div value={quote.id} key={quote.id} onClick={handleEditClick}>
+              <p value={quote.id}>{index + 1}</p>
+              <p value={quote.id}>{quote.quote}</p>
+              <p value={quote.id}>{quote["movie_title"]}</p>
+            </div>
           </li>
         ))
       ) : (
