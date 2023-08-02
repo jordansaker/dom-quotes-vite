@@ -1,8 +1,12 @@
 import React from 'react'
+import AllQuotesDisplay from '../AllQuotesDisplay'
 
-const EditContent = () => {
+const EditContent = ({ displayQuotes }) => {
   return (
-    <div className='content'>EditContent</div>
+    <div className="content">
+      <h6>Edit Quotes</h6>
+      <div className="editDisplay">{displayQuotes}</div>
+    </div>
   )
 }
 

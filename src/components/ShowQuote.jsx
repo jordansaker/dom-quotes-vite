@@ -19,8 +19,8 @@ const ShowQuote = () => {
 
   return (
     quoteObject && (
-      <div>
-        <button onClick={fetchQuote}>Get Quote</button>
+      <div className='randomQuote'>
+        <button onClick={fetchQuote}>Random Quote</button>
         {quoteObject && <blockquote>"{quoteObject.quote}"</blockquote>}
         {quoteObject && <p>{quoteObject.movie_title}</p>}
       </div>
