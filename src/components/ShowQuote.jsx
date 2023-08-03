@@ -22,9 +22,9 @@ const ShowQuote = () => {
   return (
     quoteObject && (
       <div className='randomQuote'>
-        <button onClick={fetchQuote}>Random Quote</button>
-        {quoteObject && <blockquote>"{quoteObject.quote}"</blockquote>}
+        <button onClick={fetchQuote}>Random Quote</button>    
         {quoteObject && <p>{quoteObject.movie_title}</p>}
+        {quoteObject && <blockquote>"{quoteObject.quote}"</blockquote>}
       </div>
     )
   )
