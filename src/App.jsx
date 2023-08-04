@@ -97,6 +97,7 @@ const App = () => {
   }
 
   const handleEditClick = (event) => {
+    event.preventDefault()
     setIsloading(true)
     const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.attributes.value.value + '/'
     fetchMod("", quoteURL, 'GET')
@@ -108,6 +109,14 @@ const App = () => {
       setIsloading(false)
     }, 2000)
     navigate(`/dashboard/edit/${event.target.attributes.value.value}/`)
+  }
+
+  const handleDeleteClick = (event) => {
+    event.preventDefault()
+    const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.attributes.value.value + '/'
+    fetchMod("", quoteURL, 'DELETE')
+    .then(res => res.json())
+    .then(data => {console.log(data)})
   }
 
   return (
@@ -165,6 +174,7 @@ const App = () => {
                         quotesArray={quotesArray}
                         setQuotesArray={setQuotesArray}
                         handleEditClick={handleEditClick}
+                        handleDeleteClick={handleDeleteClick}
                       />
                     }
                   />
