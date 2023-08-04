@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { auth } from './auth/AuthModule'
 
-const AllQuotesDisplay = ({ quotesArray, setQuotesArray, handleEditClick, handleDeleteClick }) => {
+const AllQuotesDisplay = ({ quotesArray, setQuotesArray, handleEditClick, handleDeleteClick, modalHandleClick }) => {
 
   useEffect(() => {
     auth.fetch('https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all')
@@ -10,7 +10,7 @@ const AllQuotesDisplay = ({ quotesArray, setQuotesArray, handleEditClick, handle
           setQuotesArray(data)
         })
         .catch(err => console.log(err))
-}, [])
+}, [modalHandleClick])
 
   return ( 
     <>
@@ -18,7 +18,7 @@ const AllQuotesDisplay = ({ quotesArray, setQuotesArray, handleEditClick, handle
     <tbody>
       {quotesArray.length > 0 ? (
         quotesArray.map((quote, index) => (
-          <tr value={quote.id} key={quote.id} onClick={handleEditClick}>
+          <tr value={quote.id} key={quote.id}>
             <td value={quote.id} onClick={handleDeleteClick} className='fa fa-trash-alt'></td>
             <td value={quote.id} key={quote.id} onClick={handleEditClick}>
               <table value={quote.id} key={quote.id}>

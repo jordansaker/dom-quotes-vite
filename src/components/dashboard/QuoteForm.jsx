@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-const QuoteForm = ({ addQuote, quote, setQuote, movieTitle, setMovieTitle, setActiveTwo, isActiveTwo }) => {
+const QuoteForm = ({ addUpdateQuote, quote, setQuote, movieTitle, setMovieTitle, setActiveTwo, isActiveTwo }) => {
+  const params = useParams()
 
   const formSumbit = (event) => {
     event.preventDefault()
-    addQuote(quote, movieTitle)
+    Object.keys(params).length === 0
+      ? addUpdateQuote(quote, movieTitle, "POST")
+      : addUpdateQuote(quote, movieTitle, "PUT");
   }
 
   useEffect(() =>{

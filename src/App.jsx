@@ -17,6 +17,7 @@ import ShowQuote from './components/ShowQuote'
 import { auth } from './components/auth/AuthModule'
 import QuoteForm from './components/dashboard/QuoteForm'
 import Loading from './components/Loading'
+import DeleteModal from './components/dashboard/DeleteModal'
 
 // API functions
 
@@ -37,7 +38,7 @@ async function fetchMod (data, URL, method) {
     const returnedData = await res.json()
     console.log('Sucess')
     objKeyErrors.map(key => {
-      if (Object.keys(returnedData).includes(key) && returnedData[key] !== 'Quote added to dom_quotes table') {
+      if (Object.keys(returnedData).includes(key) && returnedData[key] !== 'Quote added to dom_quotes table' && returnedData[key] !== 'Quote deleted') {
         throw Error(JSON.stringify(returnedData))
       }
     })
@@ -57,25 +58,31 @@ const App = () => {
   const [movieTitle, setMovieTitle] = useState('')
   const [isLoading, setIsloading] = useState(true)
   const [isActiveTwo, setActiveTwo] = useState(false)
+  const [quoteID, setQuoteID] = useState(0)
+  const [showModal, setShowModal] = useState(false)
+  const [method, setMethod] = useState('POST')
 
   const navigate = useNavigate()
 
-  function addQuote (quote, movieTitle) {
+  function addUpdateQuote (quote, movieTitle, method) {
     const newQuote = {
       quote,
       movie_title: movieTitle,
     }
-    const url = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/new/'
-    fetchMod(newQuote, url, "POST")
+    const url =
+      method === "POST"
+        ? "https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/new/"
+        : "https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/" + quoteID + "/"
+    fetchMod(newQuote, url, method)
       .then((res) => {
         const resObj = {
           id: res.quote.id,
           quote: res.quote.quote,
           movie_title: res.quote["movie_title"],
         }
+        method === 'POST' ? setQuoteObject(resObj) :  setQuoteObject(res)
         setQuote('')
         setMovieTitle('')
-        setQuoteObject(resObj)
       })
       .catch((err) => {
         const errObj = JSON.parse(err.message)
@@ -93,12 +100,19 @@ const App = () => {
         })
         console.log(JSON.parse(err.message));
       })
-    navigate('/dashboard/new/')
+    setIsloading(true)
+    setTimeout(() => {
+      setIsloading(false)
+    }, 2000)
+    method === "POST"
+      ? navigate("/dashboard/new/")
+      : navigate("/dashboard/update/")
   }
 
   const handleEditClick = (event) => {
     event.preventDefault()
     setIsloading(true)
+    setQuoteID(event.target.attributes.value.value)
     const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.attributes.value.value + '/'
     fetchMod("", quoteURL, 'GET')
       .then(res => {
@@ -113,10 +127,16 @@ const App = () => {
 
   const handleDeleteClick = (event) => {
     event.preventDefault()
-    const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.attributes.value.value + '/'
+    setQuoteID(event.target.attributes.value.value)
+    setShowModal(true)
+  }
+
+  const modalHandleClick = (event) => {
+    event.preventDefault()
+    console.log(event.target.value)
+    const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.value + '/'
     fetchMod("", quoteURL, 'DELETE')
-    .then(res => res.json())
-    .then(data => {console.log(data)})
+      .then(res => console.log(res))
   }
 
   return (
@@ -129,7 +149,17 @@ const App = () => {
         <Route path="/dashboard">
           <Route
             path="/dashboard/"
-            element={<Dashboard content={<DashboardHome />} nav={<NavDash isActiveTwo={isActiveTwo} setActiveTwo={setActiveTwo} />} />}
+            element={
+              <Dashboard
+                content={<DashboardHome />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                  />
+                }
+              />
+            }
           />
           <Route
             path="new/quote"
@@ -139,7 +169,7 @@ const App = () => {
                   <NewQuote
                     form={
                       <QuoteForm
-                        addQuote={addQuote}
+                        addUpdateQuote={addUpdateQuote}
                         quote={quote}
                         setQuote={setQuote}
                         movieTitle={movieTitle}
@@ -150,7 +180,12 @@ const App = () => {
                     }
                   />
                 }
-                nav={<NavDash isActiveTwo={isActiveTwo} setActiveTwo={setActiveTwo} />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                  />
+                }
               />
             }
           />
@@ -158,8 +193,13 @@ const App = () => {
             path="new/"
             element={
               <Dashboard
-                content={<NotificationCreated quoteObject={quoteObject} />}
-                nav={<NavDash isActiveTwo={isActiveTwo} setActiveTwo={setActiveTwo} />}
+                content={<NotificationCreated quoteObject={quoteObject}  isLoading={isLoading} loading={<Loading />} />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                  />
+                }
               />
             }
           />
@@ -175,11 +215,25 @@ const App = () => {
                         setQuotesArray={setQuotesArray}
                         handleEditClick={handleEditClick}
                         handleDeleteClick={handleDeleteClick}
+                        modalHandleClick={modalHandleClick}
+                      />
+                    }
+                    modal={
+                      <DeleteModal
+                        modalHandleClick={modalHandleClick}
+                        quoteID={quoteID}
+                        showModal={showModal}
+                        setShowModal={setShowModal}
                       />
                     }
                   />
                 }
-                nav={<NavDash isActiveTwo={isActiveTwo} setActiveTwo={setActiveTwo} />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                  />
+                }
               />
             }
           />
@@ -191,7 +245,7 @@ const App = () => {
                   <EditQuote
                     form={
                       <QuoteForm
-                        addQuote={addQuote}
+                        addUpdateQuote={addUpdateQuote}
                         quote={quote}
                         setQuote={setQuote}
                         movieTitle={movieTitle}
@@ -202,7 +256,26 @@ const App = () => {
                     loading={<Loading />}
                   />
                 }
-                nav={<NavDash isActiveTwo={isActiveTwo} setActiveTwo={setActiveTwo} />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                  />
+                }
+              />
+            }
+          />
+          <Route
+            path="update/"
+            element={
+              <Dashboard
+                content={<NotificationCreated quoteObject={quoteObject} isLoading={isLoading} loading={<Loading />} />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                  />
+                }
               />
             }
           />
