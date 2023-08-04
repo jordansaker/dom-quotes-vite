@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const QuoteForm = ({ addQuote }) => {
-  const [quote, setQuote] = useState('')
-  const [movieTitle, setMovieTitle] = useState('')
+const QuoteForm = ({ addQuote, quote, setQuote, movieTitle, setMovieTitle, setActiveTwo, isActiveTwo }) => {
 
   const formSumbit = (event) => {
     event.preventDefault()
     addQuote(quote, movieTitle)
   }
+
+  useEffect(() =>{
+    if (isActiveTwo) {
+      setQuote('')
+      setMovieTitle('')
+    }
+  }, [setActiveTwo])
 
   return (
     <form className="d-flex flex-column p-5" onSubmit={formSumbit}>

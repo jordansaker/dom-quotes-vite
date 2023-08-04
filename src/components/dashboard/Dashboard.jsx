@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import NewQuote from './NewQuote'
-import Nav from './Nav'
+import Nav from './NavDash'
 
-const Dashboard = ({content}) => {
+const Dashboard = ({content, nav}) => {
   return (
     <>
       <div className="dashboardContent">
       <h4>Dashboard</h4>
-        <Nav />
+        {nav}
         {content}
       </div>
     </>

@@ -12,27 +12,33 @@ const AllQuotesDisplay = ({ quotesArray, setQuotesArray, handleEditClick }) => {
         .catch(err => console.log(err))
 }, [])
 
-  return (
+  return ( 
+    <>
     <table>
+    <tbody>
       {quotesArray.length > 0 ? (
         quotesArray.map((quote, index) => (
           <tr value={quote.id} key={quote.id} onClick={handleEditClick}>
             <td><span className='fa fa-trash-alt'></span></td>
             <td value={quote.id} key={quote.id} onClick={handleEditClick}>
               <table value={quote.id} key={quote.id}>
+                <tbody>
                 <tr value={quote.id} key={quote.id}>
                   <td><p value={quote.id}>{index + 1}</p></td>
                   <td><p value={quote.id}>{quote.quote}</p></td>
                   <td><p value={quote.id}>{quote["movie_title"]}</p></td>
                 </tr>
+                </tbody>
               </table>
             </td>
           </tr>
         ))
       ) : (
-        <p>No quotes</p>
+        <tr><td><p>No quotes</p></td></tr>
       )}
-    </table>
+      </tbody>
+        </table>
+      </>
   )
 }
 

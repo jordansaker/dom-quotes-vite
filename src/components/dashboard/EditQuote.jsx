@@ -1,11 +1,10 @@
 import React from 'react'
-import QuoteForm from './QuoteForm'
 
-const EditQuote = ({ addQuote }) => {
+const EditQuote = ({ form, isloading, loading }) => {
   return (
     <div className='content'>
       <h6>Edit Quote</h6>
-      <QuoteForm addQuote={addQuote} />
+      { !isloading ? form : loading }
     </div>
   )
 }

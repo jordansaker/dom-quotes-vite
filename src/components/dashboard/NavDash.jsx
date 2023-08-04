@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-const Nav = () => {
-  const [isActive, setActive] = useState(true)
-  const [isActiveTwo, setActiveTwo] = useState(false)
+const NavDash = ({isActiveTwo, setActiveTwo}) => {
+  const [isActive, setActive] = useState(false)
   const [isActiveThree, setActiveThree] = useState(false)
   
   return (
@@ -39,4 +38,4 @@ const Nav = () => {
   )
 }
 
-export default Nav
+export default NavDash

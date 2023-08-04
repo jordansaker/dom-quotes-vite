@@ -96,6 +96,14 @@ const Home = ({ showQuote}) => {
                 </Link>
               </p>
             </div>
+            <div className="container">
+              <div className="jsonPost">
+                <p>&#123;</p>
+                <p><span>"user"</span>  : "a placeholder field",</p>
+                <p><span>"search"</span>  : "Family"</p>
+                <p>&#125;</p>
+              </div>
+            </div>
           </section>
           <hr />
           <section className="container d-flex api">

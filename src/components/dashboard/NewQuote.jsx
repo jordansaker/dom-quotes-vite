@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import QuoteForm from './QuoteForm'
 
-const NewQuote = ({ addQuote }) => {
+const NewQuote = ({ form }) => {
 
   return (
     <div className='content'>
       <h6>Add New Quote</h6>
-      <QuoteForm addQuote={addQuote} />
+      {form}
     </div>
   )
 }

@@ -179,7 +179,6 @@
 
 .api {
   margin: 5rem auto;
-  border: 1px solid #dee2e6;
   width: 90%;
   padding: 0.5rem;
 }
@@ -231,14 +230,13 @@
   gap: 3rem 0.5rem;
 }
 
-.apiBreif > div:first-of-type, .apiBreif > div:nth-of-type(4), .apiBreif > div:nth-of-type(5) {
+.apiBreif > div:first-of-type, .apiBreif > div:nth-of-type(4) {
   grid-column: 1 / 5;
 }
 
 .apiBreif > div:not(:first-of-type) {
   min-width: 100%;
   width: 0;
-  /* white-space: nowrap; */
 }
 
 .apiBreif > div:nth-of-type(2) {
@@ -247,6 +245,14 @@
 
 .apiBreif > div:nth-of-type(3), .apiBreif > div:nth-of-type(6) {
   grid-column: 2 / 5;
+}
+
+.apiBreif > div:nth-of-type(5) {
+  grid-column: 1 / 3;
+}
+
+.apiBreif > div:nth-of-type(6) {
+  grid-column: 3 / 5;
 }
 
 apiBreif > div:nth-of-type(6) > p {
@@ -266,16 +272,16 @@ apiBreif > div:nth-of-type(6) > p {
   position: relative;
 }
 
-.json {
+.json, .jsonPost {
   margin-top: 3rem;
 }
 
-.json p {
+.json p, .jsonPost p {
   padding: 0;
   margin: 0;
 }
 
-.json p:nth-of-type(2), .json p:nth-of-type(3), .json p:nth-of-type(4) {
+.json p:nth-of-type(2), .json p:nth-of-type(3), .json p:nth-of-type(4), .jsonPost p:nth-of-type(2), .jsonPost p:nth-of-type(3) {
   margin-left: 1rem;
   margin-bottom: 0.5rem;
   color: #c4b834;
@@ -285,7 +291,7 @@ apiBreif > div:nth-of-type(6) > p {
   color: #8776d5;
 }
 
-.json p:nth-of-type(2) span, .json p:nth-of-type(3) span, .json p:nth-of-type(4) span {
+.json p:nth-of-type(2) span, .json p:nth-of-type(3) span, .json p:nth-of-type(4) span, .jsonPost p:nth-of-type(2) span, .jsonPost p:nth-of-type(3) span {
   color: #63992a;
 }
 
@@ -298,4 +304,29 @@ apiBreif > div:nth-of-type(6) > p {
 
 h1 {
   margin: 1rem;
+}
+
+.notification {
+  border: 1px solid #dee2e6;
+  box-shadow: 0 20px 25px -5px #000, 0 8px 10px -6px #000;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.notification p:first-of-type {
+  background-color: #000;
+  color: #fff;
+  padding: 1rem;
+}
+
+.notification span:first-of-type {
+  font-weight: 700;
+}
+
+.notification p span:last-of-type {
+  margin-left: 0.5rem;
+}
+
+.loading {
+  width: 30%;
 }
