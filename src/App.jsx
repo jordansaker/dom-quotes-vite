@@ -18,6 +18,7 @@ import { auth } from './components/auth/AuthModule'
 import QuoteForm from './components/dashboard/QuoteForm'
 import Loading from './components/Loading'
 import DeleteModal from './components/dashboard/DeleteModal'
+import PopUpErrorModal from './components/dashboard/PopUpErrorModal'
 
 // API functions
 
@@ -61,7 +62,8 @@ const App = () => {
   const [isActiveThree, setActiveThree] = useState(false)
   const [quoteID, setQuoteID] = useState(0)
   const [showModal, setShowModal] = useState(false)
-  const [method, setMethod] = useState('POST')
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const [errMsg, setErrMsg] = useState('POST')
 
   const navigate = useNavigate()
 
@@ -81,33 +83,40 @@ const App = () => {
           quote: res.quote.quote,
           movie_title: res.quote["movie_title"],
         }
-        method === 'POST' ? setQuoteObject(resObj) :  setQuoteObject(res)
         setQuote('')
         setMovieTitle('')
+         // Page change
+         setIsloading(true)
+         setTimeout(() => {
+           setIsloading(false)
+         }, 2000)
+
+        if (method === 'POST') {
+          setQuoteObject(resObj)
+          navigate("/dashboard/new/")
+        }
+        else {
+          setQuoteObject(res)
+          navigate("/dashboard/update/")
+        }
       })
       .catch((err) => {
         const errObj = JSON.parse(err.message)
-        let errMsg;
         Object.keys(errObj).map((key) => {
           if (objKeyErrors.includes(key) && key === "integrity_error") {
-            errMsg = "Quote already exists in collection, fam.";
+            setErrMsg("Quote already exists in collection, fam.")
           } else if (objKeyErrors.includes(key) && key === "validation_error") {
-            errMsg = "Woah, fam. No man left behind";
+            setErrMsg("Woah, fam. No man left behind")
+          } else if (objKeyErrors.includes(key) && key === "Token has expired") {
+            navigate('/login')
           }
-          setError(errMsg)
+          setShowErrorModal(true)
           setTimeout(() => {
-            setError("")
-          }, 5000)
+            setShowErrorModal(false)
+          }, 20000)
         })
-        console.log(JSON.parse(err.message));
+        console.log(JSON.parse(err.message))
       })
-    setIsloading(true)
-    setTimeout(() => {
-      setIsloading(false)
-    }, 2000)
-    method === "POST"
-      ? navigate("/dashboard/new/")
-      : navigate("/dashboard/update/")
   }
 
   const handleEditClick = (event) => {
@@ -138,6 +147,11 @@ const App = () => {
     const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.value + '/'
     fetchMod("", quoteURL, 'DELETE')
       .then(res => console.log(res))
+      .catch((err) => {
+        if (objKeyErrors.includes(key) && key === "Token has expired") {
+          navigate('/login')
+        }
+      })
   }
 
   return (
@@ -181,6 +195,8 @@ const App = () => {
                         isActiveTwo={isActiveTwo}
                       />
                     }
+                    errorModal={<PopUpErrorModal showErrorModal={showErrorModal} setShowErrorModal={setShowErrorModal} errMsg={errMsg} />}
+                    showErrorModal={showErrorModal}
                   />
                 }
                 nav={
@@ -233,6 +249,8 @@ const App = () => {
                         setShowModal={setShowModal}
                       />
                     }
+                    errorModal={<PopUpErrorModal showErrorModal={showErrorModal} setShowErrorModal={setShowErrorModal} errMsg={errMsg} />}
+                    showErrorModal={showErrorModal}
                   />
                 }
                 nav={
@@ -263,6 +281,8 @@ const App = () => {
                     }
                     isloading={isLoading}
                     loading={<Loading />}
+                    errorModal={<PopUpErrorModal showErrorModal={showErrorModal} setShowErrorModal={setShowErrorModal} errMsg={errMsg} />}
+                    showErrorModal={showErrorModal}
                   />
                 }
                 nav={

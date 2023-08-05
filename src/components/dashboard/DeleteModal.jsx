@@ -15,7 +15,7 @@ const DeleteModal = ({ modalHandleClick, quoteID, showModal, setShowModal }) => 
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default DeleteModal
