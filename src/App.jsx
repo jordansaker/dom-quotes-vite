@@ -58,6 +58,7 @@ const App = () => {
   const [movieTitle, setMovieTitle] = useState('')
   const [isLoading, setIsloading] = useState(true)
   const [isActiveTwo, setActiveTwo] = useState(false)
+  const [isActiveThree, setActiveThree] = useState(false)
   const [quoteID, setQuoteID] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [method, setMethod] = useState('POST')
@@ -156,6 +157,8 @@ const App = () => {
                   <NavDash
                     isActiveTwo={isActiveTwo}
                     setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
                   />
                 }
               />
@@ -184,6 +187,8 @@ const App = () => {
                   <NavDash
                     isActiveTwo={isActiveTwo}
                     setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
                   />
                 }
               />
@@ -193,11 +198,13 @@ const App = () => {
             path="new/"
             element={
               <Dashboard
-                content={<NotificationCreated quoteObject={quoteObject}  isLoading={isLoading} loading={<Loading />} />}
+                content={<NotificationCreated quoteObject={quoteObject}  isLoading={isLoading} loading={<Loading />} setActiveTwo={setActiveTwo} setActiveThree={setActiveThree} />}
                 nav={
                   <NavDash
                     isActiveTwo={isActiveTwo}
                     setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
                   />
                 }
               />
@@ -232,6 +239,8 @@ const App = () => {
                   <NavDash
                     isActiveTwo={isActiveTwo}
                     setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
                   />
                 }
               />
@@ -260,6 +269,8 @@ const App = () => {
                   <NavDash
                     isActiveTwo={isActiveTwo}
                     setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
                   />
                 }
               />
@@ -269,11 +280,13 @@ const App = () => {
             path="update/"
             element={
               <Dashboard
-                content={<NotificationCreated quoteObject={quoteObject} isLoading={isLoading} loading={<Loading />} />}
+                content={<NotificationCreated quoteObject={quoteObject} isLoading={isLoading} loading={<Loading />} setActiveTwo={setActiveTwo} setActiveThree={setActiveThree} />}
                 nav={
                   <NavDash
                     isActiveTwo={isActiveTwo}
                     setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
                   />
                 }
               />

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-const NavDash = ({isActiveTwo, setActiveTwo}) => {
+const NavDash = ({isActiveTwo, setActiveTwo, isActiveThree, setActiveThree}) => {
   const [isActive, setActive] = useState(false)
-  const [isActiveThree, setActiveThree] = useState(false)
   
   return (
     <ul className="nav flex-column dashNav">

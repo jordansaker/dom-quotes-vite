@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const NotificationCreated = ({quoteObject, loading, isLoading}) => {
+const NotificationCreated = ({quoteObject, loading, isLoading, setActiveTwo, setActiveThree}) => {
   const navigate = useNavigate()
   return (
     <div className="content">
@@ -22,8 +22,16 @@ const NotificationCreated = ({quoteObject, loading, isLoading}) => {
             </p>
           </div>
           <div className='notification-button'>
-            <button onClick={() => {navigate('/dashboard/new/quote')}}>New Quote</button>
-            <button>Update Quote</button>
+            <button onClick={() => {
+              setActiveTwo(true)
+              setActiveThree(false)
+              navigate('/dashboard/new/quote')
+            }}>New Quote</button>
+            <button onClick={() => {
+              setActiveTwo(false)
+              setActiveThree(true)
+              navigate('/dashboard/edit/')
+            }}>Update Quote</button>
           </div>
         </>
       ) : (
