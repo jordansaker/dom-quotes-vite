@@ -31,10 +31,17 @@
   top: 10%;
 }
 
-.dashboardContent h4 {
+.dashboardContent div:first-of-type {
   grid-column: 1 / 7;
   border-bottom: 3px solid #dee2e6;
   padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboardContent div h4 {
+  width: 50%;
+  display: inline-block;
 }
 
 .dashboardContent .content {
@@ -142,6 +149,7 @@
 
 .search {
   float: right;
+
 }
 
 .randomQuote {

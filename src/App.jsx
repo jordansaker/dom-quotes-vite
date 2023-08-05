@@ -19,12 +19,13 @@ import QuoteForm from './components/dashboard/QuoteForm'
 import Loading from './components/Loading'
 import DeleteModal from './components/dashboard/DeleteModal'
 import PopUpErrorModal from './components/dashboard/PopUpErrorModal'
+import Search from './components/Search'
 
 // API functions
 
 const objKeyErrors = ['integrity_error', 'not_found', 'invalid_auth', 'validation_error', 'bad_request', 'msg', '']
 
-async function fetchMod (data, URL, method) {
+async function fetchMod (data, URL, method, search) {
   try {
     const config = {
       method: method,
@@ -143,7 +144,6 @@ const App = () => {
 
   const modalHandleClick = (event) => {
     event.preventDefault()
-    console.log(event.target.value)
     const quoteURL = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/' + event.target.value + '/'
     fetchMod("", quoteURL, 'DELETE')
       .then(res => console.log(res))
@@ -152,6 +152,12 @@ const App = () => {
           navigate('/login')
         }
       })
+  }
+
+  const search = (data) => {
+    const url = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/search/'
+    fetchMod(data, url, 'POST')
+      .then(res => console.log(res))
   }
 
   return (
@@ -175,6 +181,7 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
+                search={<Search search={search} />}
               />
             }
           />
