@@ -20,6 +20,7 @@ import Loading from './components/Loading'
 import DeleteModal from './components/dashboard/DeleteModal'
 import PopUpErrorModal from './components/dashboard/PopUpErrorModal'
 import Search from './components/Search'
+import SearchResults from './components/SearchResults'
 
 // API functions
 
@@ -65,6 +66,8 @@ const App = () => {
   const [showModal, setShowModal] = useState(false)
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errMsg, setErrMsg] = useState('POST')
+  const [searchResults, setSearchResults] = useState([])
+  const [displaySearchResults, setDisplaySearchResults] = useState(false)
 
   const navigate = useNavigate()
 
@@ -157,7 +160,11 @@ const App = () => {
   const search = (data) => {
     const url = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/search/'
     fetchMod(data, url, 'POST')
-      .then(res => console.log(res))
+      .then(res => {
+        setSearchResults(res)
+        setDisplaySearchResults(true)
+        console.log(res)
+      })
   }
 
   return (
@@ -172,7 +179,7 @@ const App = () => {
             path="/dashboard/"
             element={
               <Dashboard
-                content={<DashboardHome />}
+                content={<DashboardHome searchResults={<SearchResults searchResults={searchResults} />} displaySearchResults={displaySearchResults} />}
                 nav={
                   <NavDash
                     isActiveTwo={isActiveTwo}

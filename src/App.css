@@ -31,7 +31,7 @@
   top: 10%;
 }
 
-.dashboardContent div:first-of-type {
+.dashboardContent > div:first-of-type {
   grid-column: 1 / 7;
   border-bottom: 3px solid #dee2e6;
   padding: 1rem;
