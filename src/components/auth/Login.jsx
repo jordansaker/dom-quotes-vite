@@ -37,7 +37,7 @@ const Login = ({ setDashboard }) => {
         />
         <label className='mt-4' >Password:</label>
         <input
-          type="text"
+          type="password"
           name="password"
           id="password"
           value={password}
