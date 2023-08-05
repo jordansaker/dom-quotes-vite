@@ -157,13 +157,13 @@ const App = () => {
       })
   }
 
-  const search = (data) => {
+  const searchDash = (data) => {
     const url = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/search/'
     fetchMod(data, url, 'POST')
       .then(res => {
         setSearchResults(res)
         setDisplaySearchResults(true)
-        console.log(res)
+        navigate('/dashboard/search/results')
       })
   }
 
@@ -176,10 +176,10 @@ const App = () => {
         </Route>
         <Route path="/dashboard">
           <Route
-            path="/dashboard/"
+            path="search/results"
             element={
               <Dashboard
-                content={<DashboardHome searchResults={<SearchResults searchResults={searchResults} />} displaySearchResults={displaySearchResults} />}
+                content={<SearchResults searchResults={searchResults} />}
                 nav={
                   <NavDash
                     isActiveTwo={isActiveTwo}
@@ -188,7 +188,24 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
-                search={<Search search={search} />}
+                search={<Search searchDash={searchDash} />}
+              />
+            }
+          />
+          <Route
+            path=""
+            element={
+              <Dashboard
+                content={<DashboardHome />}
+                nav={
+                  <NavDash
+                    isActiveTwo={isActiveTwo}
+                    setActiveTwo={setActiveTwo}
+                    isActiveThree={isActiveThree}
+                    setActiveThree={setActiveThree}
+                  />
+                }
+                search={<Search searchDash={searchDash} />}
               />
             }
           />
@@ -209,7 +226,13 @@ const App = () => {
                         isActiveTwo={isActiveTwo}
                       />
                     }
-                    errorModal={<PopUpErrorModal showErrorModal={showErrorModal} setShowErrorModal={setShowErrorModal} errMsg={errMsg} />}
+                    errorModal={
+                      <PopUpErrorModal
+                        showErrorModal={showErrorModal}
+                        setShowErrorModal={setShowErrorModal}
+                        errMsg={errMsg}
+                      />
+                    }
                     showErrorModal={showErrorModal}
                   />
                 }
@@ -221,6 +244,7 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
+                search={<Search searchDash={searchDash} />}
               />
             }
           />
@@ -228,7 +252,15 @@ const App = () => {
             path="new/"
             element={
               <Dashboard
-                content={<NotificationCreated quoteObject={quoteObject}  isLoading={isLoading} loading={<Loading />} setActiveTwo={setActiveTwo} setActiveThree={setActiveThree} />}
+                content={
+                  <NotificationCreated
+                    quoteObject={quoteObject}
+                    isLoading={isLoading}
+                    loading={<Loading />}
+                    setActiveTwo={setActiveTwo}
+                    setActiveThree={setActiveThree}
+                  />
+                }
                 nav={
                   <NavDash
                     isActiveTwo={isActiveTwo}
@@ -237,6 +269,7 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
+                search={<Search searchDash={searchDash} />}
               />
             }
           />
@@ -263,7 +296,13 @@ const App = () => {
                         setShowModal={setShowModal}
                       />
                     }
-                    errorModal={<PopUpErrorModal showErrorModal={showErrorModal} setShowErrorModal={setShowErrorModal} errMsg={errMsg} />}
+                    errorModal={
+                      <PopUpErrorModal
+                        showErrorModal={showErrorModal}
+                        setShowErrorModal={setShowErrorModal}
+                        errMsg={errMsg}
+                      />
+                    }
                     showErrorModal={showErrorModal}
                   />
                 }
@@ -275,6 +314,7 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
+                search={<Search searchDash={searchDash} />}
               />
             }
           />
@@ -295,7 +335,13 @@ const App = () => {
                     }
                     isloading={isLoading}
                     loading={<Loading />}
-                    errorModal={<PopUpErrorModal showErrorModal={showErrorModal} setShowErrorModal={setShowErrorModal} errMsg={errMsg} />}
+                    errorModal={
+                      <PopUpErrorModal
+                        showErrorModal={showErrorModal}
+                        setShowErrorModal={setShowErrorModal}
+                        errMsg={errMsg}
+                      />
+                    }
                     showErrorModal={showErrorModal}
                   />
                 }
@@ -307,6 +353,7 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
+                search={<Search searchDash={searchDash} />}
               />
             }
           />
@@ -314,7 +361,15 @@ const App = () => {
             path="update/"
             element={
               <Dashboard
-                content={<NotificationCreated quoteObject={quoteObject} isLoading={isLoading} loading={<Loading />} setActiveTwo={setActiveTwo} setActiveThree={setActiveThree} />}
+                content={
+                  <NotificationCreated
+                    quoteObject={quoteObject}
+                    isLoading={isLoading}
+                    loading={<Loading />}
+                    setActiveTwo={setActiveTwo}
+                    setActiveThree={setActiveThree}
+                  />
+                }
                 nav={
                   <NavDash
                     isActiveTwo={isActiveTwo}
@@ -323,6 +378,7 @@ const App = () => {
                     setActiveThree={setActiveThree}
                   />
                 }
+                search={<Search searchDash={searchDash} />}
               />
             }
           />

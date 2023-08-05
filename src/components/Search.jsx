@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Search = ({search}) => {
+const Search = ({searchDash}) => {
   const [searchExp, setSearchExp] = useState('')
 
   const handleSearchSubmit = (event) => {
@@ -8,7 +8,7 @@ const Search = ({search}) => {
     const data = {
       search: searchExp
     }
-    search(data)
+    searchDash(data)
   }
 
   return (
