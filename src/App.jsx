@@ -186,8 +186,7 @@ const App = () => {
         <Route path="/" element={<Home showQuote={<ShowQuote />} />}>
           <Route path="all/quotes" element={<AllQuotesDisplay />} />
         </Route>
-        {auth.admin() === "Admin access" ? (
-          <Route path="/dashboard">
+        <Route path="/dashboard">
             {previousURL ? (
               <Route
                 path="search/results"
@@ -197,6 +196,8 @@ const App = () => {
                       <SearchResults
                         searchResults={searchResults}
                         handleSearchClose={handleSearchClose}
+                        previousURL={previousURL}
+                        dashboard={dashboard}
                       />
                     }
                     nav={
@@ -402,22 +403,20 @@ const App = () => {
                 />
               }
             />
-          </Route>
-        ) : <Route path="/dashboard" element={<Login setDashboard={setDashboard} />} />}
+        </Route>
         <Route path="/login" element={<Login setDashboard={setDashboard} />} />
         <Route path="/api/docs/" element={<APIInfo />} />
-        {previousURL ? (
           <Route
             path="/quotes/search/results"
             element={
               <SearchResults
                 searchResults={searchResults}
                 handleSearchClose={handleSearchClose}
+                previousURL={previousURL}
+                dashboard={dashboard}
               />
             }
           />
-        ) : <Route
-        path="/quotes/search/results" element={<Home showQuote={<ShowQuote />} />} />}
       </Routes>
     </>
   )
