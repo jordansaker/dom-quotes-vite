@@ -1,9 +1,10 @@
 import React from 'react'
 
-const SearchResults = ({searchResults}) => {
+const SearchResults = ({searchResults, handleSearchClose}) => {
   return (
     <div className="content">
       <div className='resultsDisplay'>
+        <span className='fa fa-times' onClick={handleSearchClose}></span>
         <h5>Search Results:</h5>
         {searchResults.length > 0 ? (
           searchResults.map((quote) => (

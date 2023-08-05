@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Home from './components/Home'
 import Dashboard from './components/dashboard/Dashboard'
 import Login from './components/auth/Login'
@@ -68,8 +68,10 @@ const App = () => {
   const [errMsg, setErrMsg] = useState('POST')
   const [searchResults, setSearchResults] = useState([])
   const [dashboard, setDashboard] = useState(false)
+  const [previousURL, setPreviousURL] = useState('')
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   function addUpdateQuote (quote, movieTitle, method) {
     const newQuote = {
@@ -164,229 +166,258 @@ const App = () => {
     fetchMod(data, url, 'POST')
       .then(res => {
         setSearchResults(res)
+        setPreviousURL(location.pathname)
         dashboard ? navigate('/dashboard/search/results') : navigate('/quotes/search/results')
       })
   }
 
+  const handleSearchClose = () => {
+    navigate(previousURL)
+  }
+
   return (
     <>
-      <Nav dashboard={dashboard} setDashboard={setDashboard} searchDash={searchDash} />
+      <Nav
+        dashboard={dashboard}
+        setDashboard={setDashboard}
+        searchDash={searchDash}
+      />
       <Routes>
         <Route path="/" element={<Home showQuote={<ShowQuote />} />}>
           <Route path="all/quotes" element={<AllQuotesDisplay />} />
         </Route>
-        <Route path="/dashboard">
-          <Route
-            path="search/results"
-            element={
-              <Dashboard
-                content={<SearchResults searchResults={searchResults} />}
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
-              />
-            }
-          />
-          <Route
-            path=""
-            element={
-              <Dashboard
-                content={<DashboardHome />}
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
-              />
-            }
-          />
-          <Route
-            path="new/quote"
-            element={
-              <Dashboard
-                content={
-                  <NewQuote
-                    form={
-                      <QuoteForm
-                        addUpdateQuote={addUpdateQuote}
-                        quote={quote}
-                        setQuote={setQuote}
-                        movieTitle={movieTitle}
-                        setMovieTitle={setMovieTitle}
-                        setActiveTwo={setActiveTwo}
+        {auth.admin() === "Admin access" ? (
+          <Route path="/dashboard">
+            {previousURL ? (
+              <Route
+                path="search/results"
+                element={
+                  <Dashboard
+                    content={
+                      <SearchResults
+                        searchResults={searchResults}
+                        handleSearchClose={handleSearchClose}
+                      />
+                    }
+                    nav={
+                      <NavDash
                         isActiveTwo={isActiveTwo}
+                        setActiveTwo={setActiveTwo}
+                        isActiveThree={isActiveThree}
+                        setActiveThree={setActiveThree}
                       />
                     }
-                    errorModal={
-                      <PopUpErrorModal
-                        showErrorModal={showErrorModal}
-                        setShowErrorModal={setShowErrorModal}
-                        errMsg={errMsg}
-                      />
-                    }
-                    showErrorModal={showErrorModal}
+                    search={<Search searchDash={searchDash} />}
                   />
                 }
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
               />
-            }
-          />
-          <Route
-            path="new/"
-            element={
-              <Dashboard
-                content={
-                  <NotificationCreated
-                    quoteObject={quoteObject}
-                    isLoading={isLoading}
-                    loading={<Loading />}
-                    setActiveTwo={setActiveTwo}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
-              />
-            }
-          />
-          <Route
-            path="edit/"
-            element={
-              <Dashboard
-                content={
-                  <EditContent
-                    displayQuotes={
-                      <AllQuotesDisplay
-                        quotesArray={quotesArray}
-                        setQuotesArray={setQuotesArray}
-                        handleEditClick={handleEditClick}
-                        handleDeleteClick={handleDeleteClick}
-                        modalHandleClick={modalHandleClick}
-                      />
-                    }
-                    modal={
-                      <DeleteModal
-                        modalHandleClick={modalHandleClick}
-                        quoteID={quoteID}
-                        showModal={showModal}
-                        setShowModal={setShowModal}
-                      />
-                    }
-                    errorModal={
-                      <PopUpErrorModal
-                        showErrorModal={showErrorModal}
-                        setShowErrorModal={setShowErrorModal}
-                        errMsg={errMsg}
-                      />
-                    }
-                    showErrorModal={showErrorModal}
-                  />
-                }
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
-              />
-            }
-          />
-          <Route
-            path="edit/:id/"
-            element={
-              <Dashboard
-                content={
-                  <EditQuote
-                    form={
-                      <QuoteForm
-                        addUpdateQuote={addUpdateQuote}
-                        quote={quote}
-                        setQuote={setQuote}
-                        movieTitle={movieTitle}
-                        setMovieTitle={setMovieTitle}
-                      />
-                    }
-                    isloading={isLoading}
-                    loading={<Loading />}
-                    errorModal={
-                      <PopUpErrorModal
-                        showErrorModal={showErrorModal}
-                        setShowErrorModal={setShowErrorModal}
-                        errMsg={errMsg}
-                      />
-                    }
-                    showErrorModal={showErrorModal}
-                  />
-                }
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
-              />
-            }
-          />
-          <Route
-            path="update/"
-            element={
-              <Dashboard
-                content={
-                  <NotificationCreated
-                    quoteObject={quoteObject}
-                    isLoading={isLoading}
-                    loading={<Loading />}
-                    setActiveTwo={setActiveTwo}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                nav={
-                  <NavDash
-                    isActiveTwo={isActiveTwo}
-                    setActiveTwo={setActiveTwo}
-                    isActiveThree={isActiveThree}
-                    setActiveThree={setActiveThree}
-                  />
-                }
-                search={<Search searchDash={searchDash} />}
-              />
-            }
-          />
-        </Route>
+            ) : null}
+            <Route
+              path=""
+              element={
+                <Dashboard
+                  content={<DashboardHome />}
+                  nav={
+                    <NavDash
+                      isActiveTwo={isActiveTwo}
+                      setActiveTwo={setActiveTwo}
+                      isActiveThree={isActiveThree}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  search={<Search searchDash={searchDash} />}
+                />
+              }
+            />
+            <Route
+              path="new/quote"
+              element={
+                <Dashboard
+                  content={
+                    <NewQuote
+                      form={
+                        <QuoteForm
+                          addUpdateQuote={addUpdateQuote}
+                          quote={quote}
+                          setQuote={setQuote}
+                          movieTitle={movieTitle}
+                          setMovieTitle={setMovieTitle}
+                          setActiveTwo={setActiveTwo}
+                          isActiveTwo={isActiveTwo}
+                        />
+                      }
+                      errorModal={
+                        <PopUpErrorModal
+                          showErrorModal={showErrorModal}
+                          setShowErrorModal={setShowErrorModal}
+                          errMsg={errMsg}
+                        />
+                      }
+                      showErrorModal={showErrorModal}
+                    />
+                  }
+                  nav={
+                    <NavDash
+                      isActiveTwo={isActiveTwo}
+                      setActiveTwo={setActiveTwo}
+                      isActiveThree={isActiveThree}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  search={<Search searchDash={searchDash} />}
+                />
+              }
+            />
+            <Route
+              path="new/"
+              element={
+                <Dashboard
+                  content={
+                    <NotificationCreated
+                      quoteObject={quoteObject}
+                      isLoading={isLoading}
+                      loading={<Loading />}
+                      setActiveTwo={setActiveTwo}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  nav={
+                    <NavDash
+                      isActiveTwo={isActiveTwo}
+                      setActiveTwo={setActiveTwo}
+                      isActiveThree={isActiveThree}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  search={<Search searchDash={searchDash} />}
+                />
+              }
+            />
+            <Route
+              path="edit/"
+              element={
+                <Dashboard
+                  content={
+                    <EditContent
+                      displayQuotes={
+                        <AllQuotesDisplay
+                          quotesArray={quotesArray}
+                          setQuotesArray={setQuotesArray}
+                          handleEditClick={handleEditClick}
+                          handleDeleteClick={handleDeleteClick}
+                          modalHandleClick={modalHandleClick}
+                        />
+                      }
+                      modal={
+                        <DeleteModal
+                          modalHandleClick={modalHandleClick}
+                          quoteID={quoteID}
+                          showModal={showModal}
+                          setShowModal={setShowModal}
+                        />
+                      }
+                      errorModal={
+                        <PopUpErrorModal
+                          showErrorModal={showErrorModal}
+                          setShowErrorModal={setShowErrorModal}
+                          errMsg={errMsg}
+                        />
+                      }
+                      showErrorModal={showErrorModal}
+                    />
+                  }
+                  nav={
+                    <NavDash
+                      isActiveTwo={isActiveTwo}
+                      setActiveTwo={setActiveTwo}
+                      isActiveThree={isActiveThree}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  search={<Search searchDash={searchDash} />}
+                />
+              }
+            />
+            <Route
+              path="edit/:id/"
+              element={
+                <Dashboard
+                  content={
+                    <EditQuote
+                      form={
+                        <QuoteForm
+                          addUpdateQuote={addUpdateQuote}
+                          quote={quote}
+                          setQuote={setQuote}
+                          movieTitle={movieTitle}
+                          setMovieTitle={setMovieTitle}
+                        />
+                      }
+                      isloading={isLoading}
+                      loading={<Loading />}
+                      errorModal={
+                        <PopUpErrorModal
+                          showErrorModal={showErrorModal}
+                          setShowErrorModal={setShowErrorModal}
+                          errMsg={errMsg}
+                        />
+                      }
+                      showErrorModal={showErrorModal}
+                    />
+                  }
+                  nav={
+                    <NavDash
+                      isActiveTwo={isActiveTwo}
+                      setActiveTwo={setActiveTwo}
+                      isActiveThree={isActiveThree}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  search={<Search searchDash={searchDash} />}
+                />
+              }
+            />
+            <Route
+              path="update/"
+              element={
+                <Dashboard
+                  content={
+                    <NotificationCreated
+                      quoteObject={quoteObject}
+                      isLoading={isLoading}
+                      loading={<Loading />}
+                      setActiveTwo={setActiveTwo}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  nav={
+                    <NavDash
+                      isActiveTwo={isActiveTwo}
+                      setActiveTwo={setActiveTwo}
+                      isActiveThree={isActiveThree}
+                      setActiveThree={setActiveThree}
+                    />
+                  }
+                  search={<Search searchDash={searchDash} />}
+                />
+              }
+            />
+          </Route>
+        ) : <Route path="/dashboard" element={<Login setDashboard={setDashboard} />} />}
         <Route path="/login" element={<Login setDashboard={setDashboard} />} />
         <Route path="/api/docs/" element={<APIInfo />} />
-        <Route path="/quotes/search/results" element={<SearchResults searchResults={searchResults} />} />
+        {previousURL ? (
+          <Route
+            path="/quotes/search/results"
+            element={
+              <SearchResults
+                searchResults={searchResults}
+                handleSearchClose={handleSearchClose}
+              />
+            }
+          />
+        ) : <Route
+        path="/quotes/search/results" element={<Home showQuote={<ShowQuote />} />} />}
       </Routes>
     </>
   )

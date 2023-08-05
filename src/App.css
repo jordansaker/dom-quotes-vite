@@ -434,3 +434,8 @@ h1 {
 .resultsDisplay {
   margin: 1rem;
 }
+
+.resultsDisplay span {
+  float: right;
+  cursor: pointer;
+}
