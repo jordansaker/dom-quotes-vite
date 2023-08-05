@@ -8,7 +8,8 @@ const Search = ({searchDash}) => {
     const data = {
       search: searchExp
     }
-    searchDash(data)
+    searchDash(data, true)
+    setSearchExp('')
   }
 
   return (

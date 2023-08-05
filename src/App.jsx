@@ -159,18 +159,18 @@ const App = () => {
       })
   }
 
-  const searchDash = (data) => {
+  const searchDash = (data, dashboard) => {
     const url = 'https://domtorrettoquotesapi-73dfacef14e4.herokuapp.com/all/search/'
     fetchMod(data, url, 'POST')
       .then(res => {
         setSearchResults(res)
-        navigate('/dashboard/search/results')
+        dashboard ? navigate('/dashboard/search/results') : navigate('/quotes/search/results')
       })
   }
 
   return (
     <>
-      <Nav dashboard={dashboard} setDashboard={setDashboard} />
+      <Nav dashboard={dashboard} setDashboard={setDashboard} searchDash={searchDash} />
       <Routes>
         <Route path="/" element={<Home showQuote={<ShowQuote />} />}>
           <Route path="all/quotes" element={<AllQuotesDisplay />} />
@@ -386,6 +386,7 @@ const App = () => {
         </Route>
         <Route path="/login" element={<Login setDashboard={setDashboard} />} />
         <Route path="/api/docs/" element={<APIInfo />} />
+        <Route path="/quotes/search/results" element={<SearchResults searchResults={searchResults} />} />
       </Routes>
     </>
   )

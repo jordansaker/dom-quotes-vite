@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const Nav = ({ dashboard, setDashboard }) => {
+const Nav = ({ dashboard, setDashboard, searchDash }) => {
+  const [searchExp, setSearchExp] = useState('')
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault()
+    const data = {
+      search: searchExp
+    }
+    searchDash(data, false)
+    setSearchExp('')
+  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -43,15 +54,17 @@ const Nav = ({ dashboard, setDashboard }) => {
               )}
             </ul>
             {!dashboard && (
-              <form className="d-flex" role="search">
+              <form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
                 <input
                   className="form-control me-2"
                   type="search"
                   placeholder="Search Quote"
                   aria-label="Search"
+                  value={searchExp}
+                  onChange={(event) => setSearchExp(event.target.value)}
                 />
                 <button className="btn btn-outline-success" type="submit">
-                  Search
+                  <span className="fa fa-search"></span>
                 </button>
               </form>
             )}

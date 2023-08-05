@@ -430,3 +430,7 @@ h1 {
 .error-content p {
   padding: 0 1rem;
 }
+
+.resultsDisplay {
+  margin: 1rem;
+}
