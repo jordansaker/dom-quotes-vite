@@ -67,7 +67,7 @@ const App = () => {
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errMsg, setErrMsg] = useState('POST')
   const [searchResults, setSearchResults] = useState([])
-  const [displaySearchResults, setDisplaySearchResults] = useState(false)
+  const [dashboard, setDashboard] = useState(false)
 
   const navigate = useNavigate()
 
@@ -113,6 +113,7 @@ const App = () => {
             setErrMsg("Woah, fam. No man left behind")
           } else if (objKeyErrors.includes(key) && key === "Token has expired") {
             navigate('/login')
+            setDashboard(false)
           }
           setShowErrorModal(true)
           setTimeout(() => {
@@ -153,6 +154,7 @@ const App = () => {
       .catch((err) => {
         if (objKeyErrors.includes(key) && key === "Token has expired") {
           navigate('/login')
+          setDashboard(false)
         }
       })
   }
@@ -162,14 +164,13 @@ const App = () => {
     fetchMod(data, url, 'POST')
       .then(res => {
         setSearchResults(res)
-        setDisplaySearchResults(true)
         navigate('/dashboard/search/results')
       })
   }
 
   return (
     <>
-      <Nav />
+      <Nav dashboard={dashboard} setDashboard={setDashboard} />
       <Routes>
         <Route path="/" element={<Home showQuote={<ShowQuote />} />}>
           <Route path="all/quotes" element={<AllQuotesDisplay />} />
@@ -383,11 +384,11 @@ const App = () => {
             }
           />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setDashboard={setDashboard} />} />
         <Route path="/api/docs/" element={<APIInfo />} />
       </Routes>
     </>
-  );
+  )
 }
 
 export default App

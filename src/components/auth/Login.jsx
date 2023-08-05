@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { postLogin } from './AuthModule'
 
-const Login = () => {
+const Login = ({ setDashboard }) => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,6 +17,7 @@ const Login = () => {
       .then(res => {
         if (res === 'Authenticated') {
           navigate("/dashboard")
+          setDashboard(true)
         }
       })
       .catch(err => console.error(err))
